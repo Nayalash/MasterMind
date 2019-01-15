@@ -2,35 +2,50 @@
 ----------------------------------------------------------------------------------
  Program: MasterMind    
  Author: Nayalash Mohammad
- Date: 15-fanuary-2019
- Revision Date: 17-fanuary-2019
+ Date: 15-January-2019
+ Revision Date: 17-January-2019
  --------------------------------------------------------------------------------- 
- Program Description: This program is a remae of the Mastermind/ Code Breaker Game.
+ Program Description: This program is a remake of the Mastermind/ Code Breaker Game.
  ---------------------------------------------------------------------------------- 
  Controls:  
  ----------------------------------------------------------------------------------
- Check The Next pegRow = 
- Add Colors >>>
- Black = 0
- Red = 
+ // Add Colors >>>
+ White = 0
+ Black = 1
+ Red = 2
+ Green = 3
+ Blue = 4
+ Yellow = 5
+ Orange = 6
+ Brown = 7
  
+// Go To Next Row >>>
+ Press Enter Key
+ -------------------------------------------------------------------------------------
  */
 
+// Define an array that will hold colors
 int[] colors = new int[] {color(255), color(0), color(255, 0, 0), color(0, 255, 0), color(0, 0, 255), color(255, 255, 0), color(255, 140, 0), color(139, 69, 19)};
+//                         WHITE       BLACK           RED                GREEN            BLUE              YELLOW              ORANGE              BROWN
+
+
+//define an array that will generate/store the a secret color combination.
 int[] secretCode = new int[4];
 
 int pegRow;
 int cursor;
 
+
 int[][] game = new int[1000][1000]; // set array to random amount 
 int[][] helper = new int[1000][1000]; // set array to random amount 
+
 
 boolean pickUpColor = false;
 boolean nextpegRowBeforeAction;
 boolean running = true;
 
 void setup() {
-  size(800, 350);
+  size(350, 350);
   noStroke(); 
 
   game[0] = (new int[4]); // 4 pegs at the time of action
@@ -91,19 +106,19 @@ void draw() {
     for (int f = 0; f < helper.length; f++) {
       if (helper[f][i] != 0) {
         fill(helper[f][i]);
-        ellipse(50 * secretCode.length + 5 + (20 * i), 50 + (50 * f) + 20, 10, 10);
+        ellipse(50 * secretCode.length + 20 + (20 * i), 50 + (50 * f) + 20, 10, 10);
       }
     }
   }
 
-  if (!running && pegRow < 6) {
-    fill(color(0, 255, 255));
+  if (!running & pegRow < 6) {
+    fill(color(75,0,130));
     textSize(100);
-    text("Winner", 500, 300);
+    text("Win", 500, 300);
   } else if (!running) {
-    fill(color(0, 255, 255));
+    fill(color(75,0,130));
     textSize(100);
-    text("Oops!!!", 500, 300);
+    text("Oops", 5, 200);
   }
 
   if (cursor != 0) {
