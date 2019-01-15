@@ -26,14 +26,15 @@ int[][] game = new int[1000][1000]; // set array to random amount
 int[][] helper = new int[1000][1000]; // set array to random amount 
 
 boolean pickUpColor = false;
-boolean b_submit = false;
+boolean b_submit = true;
 boolean running = true;
 
 void setup() {
   size(800, 350);
-  noStroke();
-  game[0] = (new int[4]);
-  helper[0] = (new int[4]);
+  noStroke(); 
+ 
+  game[0] = (new int[4]); // 4 pegs at the time of action
+  helper[0] = (new int[4]); //4 hint blocks to check if your guess is correct 
 
   for (int i = 0; i < secretCode.length; i++) {
     int randomizer = parseInt(random(colors.length));
