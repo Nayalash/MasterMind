@@ -43,6 +43,7 @@
 //-----------------------------------------------------------------------------------
 //Load Images
 PImage keyPic;
+PImage arrow;
 //-----------------------------------------------------------------------------------
 
 
@@ -83,8 +84,9 @@ boolean play = true;
 
 void setup() {
 
-  //load image from directory
+  //load images from directory
   keyPic = loadImage("key.png"); 
+  arrow = loadImage("arrow.png");
 
 
   size(800, 350); //size of the output screen
@@ -114,6 +116,7 @@ void draw() {
 
   // load image onto the screen  
   image(keyPic, 450, 20); 
+  image(arrow, 200,10);
 
   //---------------------------------------------------------------------------------------
   for (int i = 0; i < secretCode.length; i++) {
