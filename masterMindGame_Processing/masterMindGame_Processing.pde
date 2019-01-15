@@ -24,6 +24,8 @@
  -------------------------------------------------------------------------------------
  */
 
+//PImage bg;
+
 // Define an array that will hold colors
 int[] colors = new int[] {color(255), color(0), color(255, 0, 0), color(0, 255, 0), color(0, 0, 255), color(255, 255, 0), color(255, 140, 0), color(139, 69, 19)};
 //                         WHITE       BLACK           RED                GREEN            BLUE              YELLOW              ORANGE              BROWN
@@ -33,7 +35,8 @@ int[] colors = new int[] {color(255), color(0), color(255, 0, 0), color(0, 255, 
 int[] secretCode = new int[4];
 
 int pegRow;
-int cursor;
+int cursor = 0;
+boolean guessing = true;
 
 
 int[][] game = new int[1000][1000]; // set array to random amount 
@@ -45,6 +48,7 @@ boolean nextpegRowBeforeAction;
 boolean running = true;
 
 void setup() {
+  //bg = loadImage("bg.jpg");
   size(350, 350);
   noStroke(); 
 
@@ -63,11 +67,7 @@ void setup() {
 }
 
 void draw() {
-  background(150);
-  //if (running) {
-  //  fill(47, 79, 79);
-  //  rect(0, 50 + 50 * pegRow, 350, 50);
-  //}
+  background(11,177,247);
 
   for (int i = 0; i < secretCode.length; i++) {
     if (running) {
@@ -75,22 +75,6 @@ void draw() {
       fill(secretCode[i]);
       ellipse(50 / 2 + 50 * i, 50 / 2, 50, 50);
     }
-  }
-
-  int width = (int)(50 * (secretCode.length + .25));
-  int height = (int)(50 * .25);
-
-  for (int i = 0; i < colors.length; i++) {
-    fill(colors[i]);
-
-    if (i == colors.length / 2) {
-      width = (int)(50 * (secretCode.length + .25));
-      height += 50 / 2;
-    }
-
-    ellipse(width, height, 50 / 2, 50 / 2);
-
-    width += 50 / 2;
   }
 
   for (int i = 0; i < secretCode.length; i++) {
@@ -120,11 +104,6 @@ void draw() {
     textSize(100);
     text("Oops", 5, 200);
   }
-
-  if (cursor != 0) {
-    fill(color(cursor));
-    ellipse(mouseX, mouseY, 50 / 2, 50 / 2);
-  }
 }
 
 void drawPin(int position, int pegRow, int colour) {
@@ -132,46 +111,39 @@ void drawPin(int position, int pegRow, int colour) {
   ellipse(50 / 2 + 50 * position, (3 * 50) / 2 + 50 * pegRow, 50, 50);
 }
 
-void mousePressed() {
+void keyPressed() {
   if (running) {
-    getCursorColor();
-    setgameColor();
-    nextpegRowAfterAction();
-  }
-}
-
-void getCursorColor() {
-  for (int i = 0; i < colors.length / 2; i++) {
-    if (mouseX > 50 * secretCode.length + i * (50 / 2) && mouseX < 50 * secretCode.length + (i + 1) * 50 && mouseY > 0 && mouseY < 50) {
-      cursor = mouseY < 50 / 2 ? colors[i] : colors[i + colors.length / 2];
+    if(key == ENTER) {
+      nextpegRowAfterAction();
+      guessing = true;
     }
-  }
-
-  pickUpColor = false;
-
-  for (int i = 0; i < secretCode.length; i++) {
-    if (mouseX > 50 * i && mouseX < 50 + 50 * i && mouseY > 50 + 50 * pegRow && mouseY < 2 * 50 + 50 * pegRow && cursor == 0) {
-      cursor = game[pegRow][i];
-      pickUpColor = true;
+    if(guessing) {
+      addPeg();
     }
   }
 }
 
-void setgameColor() {
-  for (int i = 0; i < secretCode.length; i++) {
-    if (mouseX > 50 * i && mouseX < 50 + 50 * i && mouseY > 50 + 50 * pegRow && mouseY < 2 * 50 + 50 * pegRow && cursor != 0) {
-      game[pegRow][i] = cursor;
-
-      for (int f = 0; f < secretCode.length; f++) {
-        if (game[pegRow][f] == cursor && i != f) {
-          game[pegRow][f] = 0;
-        }
+void addPeg() {
+  int index = Integer.valueOf(key) - 49;
+  if(index > -1 && index < 8) {
+    if(!isDoubleColor(index)) { 
+      game[pegRow][cursor] = colors[index];
+      cursor++;
+      if(cursor >= secretCode.length) {
+        guessing = false;
       }
-
-      if (!pickUpColor) cursor = 0;
     }
   }
 }
+
+boolean isDoubleColor(int index) {
+  for(int i = 0; i < game[pegRow].length; i++) {
+    if(game[pegRow][i] == colors[index]) {
+      return true;
+    }
+  }
+  return false;
+}  
 
 void nextpegRowAfterAction() {
   nextpegRowBeforeAction = true;
@@ -190,6 +162,8 @@ void nextpegRowAfterAction() {
       pegRow++;
       game[pegRow] = new int[4];
       helper[pegRow] = new int[4];
+      //reset the cursor
+      cursor = 0;
     }
   }
 
