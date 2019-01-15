@@ -1,15 +1,15 @@
 /*
 ----------------------------------------------------------------------------------
-Program: MasterMind    
+ Program: MasterMind    
  Author: Nayalash Mohammad
- Date: 15-January-2019
- Revision Date: 17-January-2019
---------------------------------------------------------------------------------- 
+ Date: 15-fanuary-2019
+ Revision Date: 17-fanuary-2019
+ --------------------------------------------------------------------------------- 
  Program Description: This program is a remae of the Mastermind/ Code Breaker Game.
----------------------------------------------------------------------------------- 
+ ---------------------------------------------------------------------------------- 
  Controls:  
-----------------------------------------------------------------------------------
- Check The Next Row = 
+ ----------------------------------------------------------------------------------
+ Check The Next pegRow = 
  Add Colors >>>
  Black = 0
  Red = 
@@ -19,20 +19,20 @@ Program: MasterMind
 int[] colors = new int[] {color(255), color(0), color(255, 0, 0), color(0, 255, 0), color(0, 0, 255), color(255, 255, 0), color(255, 140, 0), color(139, 69, 19)};
 int[] secretCode = new int[4];
 
-int row;
+int pegRow;
 int cursor;
 
 int[][] game = new int[1000][1000]; // set array to random amount 
 int[][] helper = new int[1000][1000]; // set array to random amount 
 
 boolean pickUpColor = false;
-boolean b_submit = true;
+boolean nextpegRowBeforeAction;
 boolean running = true;
 
 void setup() {
   size(800, 350);
   noStroke(); 
- 
+
   game[0] = (new int[4]); // 4 pegs at the time of action
   helper[0] = (new int[4]); //4 hint blocks to check if your guess is correct 
 
@@ -40,22 +40,19 @@ void setup() {
     int randomizer = parseInt(random(colors.length));
     secretCode[i] = colors[randomizer];
 
-    for (int j = 0; j < i; j++) {
-      if (secretCode[i] == secretCode[j])
+    for (int f = 0; f < i; f++) {
+      if (secretCode[i] == secretCode[f])
         i--;
     }
   }
 }
 
 void draw() {
-  background(100);
-  fill(155, 255, 155);
-  rect(0, 0, 350, 50);
-
-  if (running) {
-    fill(47, 79, 79);
-    rect(0, 50 + 50 * row, 350, 50);
-  }
+  background(150);
+  //if (running) {
+  //  fill(47, 79, 79);
+  //  rect(0, 50 + 50 * pegRow, 350, 50);
+  //}
 
   for (int i = 0; i < secretCode.length; i++) {
     if (running) {
@@ -82,33 +79,31 @@ void draw() {
   }
 
   for (int i = 0; i < secretCode.length; i++) {
-    for (int j = 0; j < game.length; j++) {
-      if (game[j][i] != 0) {
-        fill(game[j][i]);
-        ellipse(50 / 2 + 50 * i, (3 * 50) / 2  + 50 * j, 50, 50);
+    for (int f = 0; f < game.length; f++) {
+      if (game[f][i] != 0) {
+        fill(game[f][i]);
+        ellipse(50 / 2 + 50 * i, (3 * 50) / 2  + 50 * f, 50, 50);
       }
     }
   }
 
   for (int i = 0; i < secretCode.length; i++) {
-    for (int j = 0; j < helper.length; j++) {
-      if (helper[j][i] != 0) {
-        fill(helper[j][i]);
-        rect(50 * secretCode.length + 5 + (20 * i), 50 + (50 * j) + 20, 10, 10);
+    for (int f = 0; f < helper.length; f++) {
+      if (helper[f][i] != 0) {
+        fill(helper[f][i]);
+        ellipse(50 * secretCode.length + 5 + (20 * i), 50 + (50 * f) + 20, 10, 10);
       }
     }
   }
 
-  if (!running && row < 6) {
+  if (!running && pegRow < 6) {
     fill(color(0, 255, 255));
     textSize(100);
-    textAlign(CENTER);
-    text("Winner", 350/2, 800/2);
+    text("Winner", 500, 300);
   } else if (!running) {
     fill(color(0, 255, 255));
     textSize(100);
-    textAlign(CENTER);
-    text("Looser", 350/2, 800/2);
+    text("Oops!!!", 500, 300);
   }
 
   if (cursor != 0) {
@@ -117,16 +112,16 @@ void draw() {
   }
 }
 
-void drawPin(int position, int row, int colour) {
+void drawPin(int position, int pegRow, int colour) {
   fill(colour);
-  ellipse(50 / 2 + 50 * position, (3 * 50) / 2 + 50 * row, 50, 50);
+  ellipse(50 / 2 + 50 * position, (3 * 50) / 2 + 50 * pegRow, 50, 50);
 }
 
 void mousePressed() {
   if (running) {
     getCursorColor();
     setgameColor();
-    f_submit();
+    nextpegRowAfterAction();
   }
 }
 
@@ -140,8 +135,8 @@ void getCursorColor() {
   pickUpColor = false;
 
   for (int i = 0; i < secretCode.length; i++) {
-    if (mouseX > 50 * i && mouseX < 50 + 50 * i && mouseY > 50 + 50 * row && mouseY < 2 * 50 + 50 * row && cursor == 0) {
-      cursor = game[row][i];
+    if (mouseX > 50 * i && mouseX < 50 + 50 * i && mouseY > 50 + 50 * pegRow && mouseY < 2 * 50 + 50 * pegRow && cursor == 0) {
+      cursor = game[pegRow][i];
       pickUpColor = true;
     }
   }
@@ -149,12 +144,12 @@ void getCursorColor() {
 
 void setgameColor() {
   for (int i = 0; i < secretCode.length; i++) {
-    if (mouseX > 50 * i && mouseX < 50 + 50 * i && mouseY > 50 + 50 * row && mouseY < 2 * 50 + 50 * row && cursor != 0) {
-      game[row][i] = cursor;
+    if (mouseX > 50 * i && mouseX < 50 + 50 * i && mouseY > 50 + 50 * pegRow && mouseY < 2 * 50 + 50 * pegRow && cursor != 0) {
+      game[pegRow][i] = cursor;
 
-      for (int j = 0; j < secretCode.length; j++) {
-        if (game[row][j] == cursor && i != j) {
-          game[row][j] = 0;
+      for (int f = 0; f < secretCode.length; f++) {
+        if (game[pegRow][f] == cursor && i != f) {
+          game[pegRow][f] = 0;
         }
       }
 
@@ -163,40 +158,41 @@ void setgameColor() {
   }
 }
 
-void f_submit() {
-  b_submit = true;
+void nextpegRowAfterAction() {
+  nextpegRowBeforeAction = true;
 
   for (int i = 0; i < secretCode.length; i++) {
-    if (game[row][i] == 0) {
-      b_submit = false;
+    if (game[pegRow][i] == 0) {
+      nextpegRowBeforeAction = false;
     }
   }
 
-  if (b_submit) {
-    b_submit = false;
+  if (nextpegRowBeforeAction) {
+    nextpegRowBeforeAction = false;
     sethelper();
 
     if (running) {
-      row++;
-      game[row] = new int[4];
-      helper[row] = new int[4];
+      pegRow++;
+      game[pegRow] = new int[4];
+      helper[pegRow] = new int[4];
     }
   }
 
-  if (row >= 6)
-  {
+  if (pegRow >= 6) {
     running = false;
   }
 }
 
+
+//CHECKER
 void sethelper() {
   int white = 0;
   int black = 0;
 
   for (int i = 0; i < secretCode.length; i++) {
-    for (int j = 0; j < secretCode.length; j++) {
-      if (game[row][i] == secretCode[j])
-        if (i == j) black++;
+    for (int f = 0; f < secretCode.length; f++) {
+      if (game[pegRow][i] == secretCode[f])
+        if (i == f) black++;
         else white++;
     }
   }
@@ -206,10 +202,10 @@ void sethelper() {
   }
 
   for (int i = 0; i < white; i++) {
-    helper[row][i] = color(255);
+    helper[pegRow][i] = color(255);
   }
 
   for (int i = 0; i < black; i++) {
-    helper[row][i + white] = color(0);
+    helper[pegRow][i + white] = color(0);
   }
 }
