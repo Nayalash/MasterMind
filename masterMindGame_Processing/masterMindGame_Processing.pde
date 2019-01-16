@@ -53,7 +53,7 @@ int[] colors = new int[] {color(255), color(0), color(255, 0, 0), color(0, 255, 
 
 //------------------------------------------------------------------------------------
 
-//define an array that will generate/store the a secret color combination.
+//define an array that will store the a secret color combination.
 int[] secretCode = new int[4];
 
 // define the number of rows for the pegs to be placed
@@ -71,9 +71,9 @@ int[][] helper = new int[1000][1000]; // set array to large amount
 
 //--------------------------------------------------------------------------------------------
 
-//check when the game reaches the next row
+//checks when the game reaches to the next row
 boolean nextRow;
-//check if the game in play.
+//check if the game is in play.
 boolean play = true;
 
 //---------------------------------------------------------------------------------------------
@@ -88,12 +88,13 @@ void setup() {
   //load images from directory
   keyPic = loadImage("key.png"); 
   arrow = loadImage("arrow.png");
-
+  //---------------------------------------------------------
   size(800, 450); //size of the output screen
   noStroke(); // so that the images are clear 
-
+  //--------------------------------------------------------------
   game[0] = new int[4]; // set 4 pegs at the time of action
   helper[0] = new int[4]; // set 4 hint blocks to check if your guess is correct 
+  //--------------------------------------------------------------------
 
   // randomize the 4 circle combination
   for (int i = 0; i < secretCode.length; i++) {
@@ -128,6 +129,7 @@ void draw() {
       ellipse(50 / 2 + 50 * i, 50 / 2, 50, 50);
     }
   }
+
   // displays the pegs
   for (int i = 0; i < secretCode.length; i++) {
     for (int f = 0; f < game.length; f++) {
@@ -148,17 +150,17 @@ void draw() {
   }
 
   //---------------------------------------------------------------------------------------
-
+  
   // setting the game to win or lose
   if (!play & pegRow < 8) {
     fill(color(75, 0, 130));
-    textSize(70);
-    text("Win", 270, 180);
+    textSize(50);
+    text("Win", 280, 180);
   } else if (!play) {
     fill(color(75, 0, 130));
-    textSize(70);
-    text("Oops", 270, 180);
+    textSize(50);
     image(arrow, 200, 10); // load arrow
+    text("Oops", 280, 180);
   }
 }
 
@@ -231,8 +233,8 @@ void nextPegRow() {
 
     if (play) {
       pegRow++;
-      //increases row makes it go down
-      
+      //increases the row makes it go down
+
       //changes the pegs and the hints to reset for the next row.
       game[pegRow] = new int[4]; 
       helper[pegRow] = new int[4];
@@ -262,15 +264,16 @@ void setHelper() {
     }
   }
 
-//if the row is correct. The game stops its running action.
+  //if the row is correct. The game stops its running action.
   if (blackHint == secretCode.length) {
     play = false;
   }
 
+  //initiates the white hint pegs
   for (int i = 0; i < whiteHint; i++) {
     helper[pegRow][i] = color(255);
   }
-
+  //initiates the black hint pegs
   for (int i = 0; i < blackHint; i++) {
     helper[pegRow][i + whiteHint] = color(0);
   }
