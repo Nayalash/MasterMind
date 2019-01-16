@@ -58,7 +58,7 @@ int[] secretCode = new int[4];
 
 // define the number of rows for the pegs to be placed
 int pegRow;
-//set the peg reset to 0
+//set the peg reset to 0 so it can increase the pegs each time
 int finder = 0;
 //boolean that check for the hints being applied
 boolean guessing = true;
@@ -96,7 +96,7 @@ void setup() {
 
   // randomize the 4 circle combination
   for (int i = 0; i < secretCode.length; i++) {
-    int randomizer = parseInt(random(colors.length));
+    int randomizer = int(random(colors.length));
     secretCode[i] = colors[randomizer];
 
     for (int f = 0; f < i; f++) {
@@ -118,6 +118,7 @@ void draw() {
 
 
   //---------------------------------------------------------------------------------------
+
   for (int i = 0; i < secretCode.length; i++) {
     if (play) {
     } else {
