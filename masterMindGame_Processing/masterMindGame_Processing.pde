@@ -48,7 +48,7 @@ PImage arrow;
 
 
 // Define an array that will hold colors
-int[] colors = new int[] {color(255), color(0), color(255, 0, 0), color(0, 255, 0), color(0, 0, 255), color(255, 255, 0), color(255, 140, 0), color(139, 69, 19)};
+int[] colors = new int[] {color(255), color(0), color(255, 0, 0), color(0, 255, 0), color(0, 0, 255), color(255, 255, 0), color(255, 140, 0), color(139, 89, 19)};
 //                          WHITE         BLACK           RED                GREEN            BLUE              YELLOW              ORANGE              BROWN
 
 //------------------------------------------------------------------------------------
@@ -88,8 +88,7 @@ void setup() {
   keyPic = loadImage("key.png"); 
   arrow = loadImage("arrow.png");
 
-
-  size(800, 350); //size of the output screen
+  size(800, 500); //size of the output screen
   noStroke(); // so that the images are clear 
 
   game[0] = (new int[4]); // set 4 pegs at the time of action
@@ -148,7 +147,7 @@ void draw() {
   //---------------------------------------------------------------------------------------
 
   // Initializing the Win Or Lose Algorthim
-  if (!play & pegRow < 6) {
+  if (!play & pegRow < 8) {
     fill(color(75, 0, 130));
     textSize(70);
     text("Win", 270, 180);
@@ -233,8 +232,8 @@ void nextPegRow() {
       finder = 0;
     }
   }
-  // when the guesses is less/equal to the 6 row mark, the game technically ends the play process
-  if (pegRow >= 6) {
+  // when the guesses is less/equal to the 8 row mark, the game technically ends the play process
+  if (pegRow >= 8) {
     play = false;
   }
 }
