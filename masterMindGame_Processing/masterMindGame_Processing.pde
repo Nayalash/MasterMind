@@ -48,7 +48,7 @@ PImage arrow;
 
 
 // Define an array that will hold colors
-int[] colors = new int[] {color(255), color(0), color(255, 0, 0), color(0, 255, 0), color(0, 0, 255), color(255, 255, 0), color(255, 140, 0), color(139, 89, 19)};
+int[] colors = new int[] {color(255), color(0), color(255, 0, 0), color(0, 255, 0), color(0, 0, 255), color(255, 255, 0), color(255, 140, 0), color(139, 69, 19)};
 //                          WHITE         BLACK           RED                GREEN            BLUE              YELLOW              ORANGE              BROWN
 
 //------------------------------------------------------------------------------------
@@ -73,7 +73,7 @@ int[][] helper = new int[1000][1000]; // set array to large amount
 
 //checks when the game reaches to the next row
 boolean nextRow;
-//check if the game is in play.
+//checks if the game is in play. [Running]
 boolean play = true;
 
 //---------------------------------------------------------------------------------------------
@@ -114,9 +114,20 @@ void setup() {
 
 void draw() {
   background(11, 177, 247); //set the background color
-
+  fetchBoard();
   // load image onto the screen  
   image(keyPic, 450, 20); 
+
+  //when the user has not lost,  display all peg place holders
+  if (play && pegRow < 8) {
+    image(arrow, 300, 60);
+    image(arrow, 300, 120);
+    image(arrow, 300, 180);
+    image(arrow, 300, 240);
+    image(arrow, 300, 300);
+    image(arrow, 300, 360);
+    image(arrow, 300, 420);
+  }
 
 
   //---------------------------------------------------------------------------------------
@@ -150,17 +161,17 @@ void draw() {
   }
 
   //---------------------------------------------------------------------------------------
-  
+
   // setting the game to win or lose
   if (!play & pegRow < 8) {
     fill(color(75, 0, 130));
     textSize(50);
-    text("Win", 280, 180);
+    text("Win", 580, 420);
   } else if (!play) {
     fill(color(75, 0, 130));
     textSize(50);
     image(arrow, 200, 10); // load arrow
-    text("Oops", 280, 180);
+    text("Oops", 580, 420);
   }
 }
 
@@ -229,8 +240,7 @@ void nextPegRow() {
 
   if (nextRow) {
     nextRow = false;
-    setHelper();
-
+    setHelper(); //display the hints
     if (play) {
       pegRow++;
       //increases the row makes it go down
@@ -277,6 +287,11 @@ void setHelper() {
   for (int i = 0; i < blackHint; i++) {
     helper[pegRow][i + whiteHint] = color(0);
   }
+}
+
+void fetchBoard() {
+  fill(75, 0, 130);
+  rect(0, 0, 300, 500);
 }
 
 //--------------------------------END---------------------------------------------------------------
