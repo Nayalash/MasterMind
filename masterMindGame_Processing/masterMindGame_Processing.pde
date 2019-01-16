@@ -118,7 +118,7 @@ void draw() {
 
 
   //---------------------------------------------------------------------------------------
-
+  // shows the answer at the end
   for (int i = 0; i < secretCode.length; i++) {
     if (play) {
     } else {
@@ -126,7 +126,7 @@ void draw() {
       ellipse(50 / 2 + 50 * i, 50 / 2, 50, 50);
     }
   }
-
+  // displays peg
   for (int i = 0; i < secretCode.length; i++) {
     for (int f = 0; f < game.length; f++) {
       if (game[f][i] != 0) {
@@ -135,7 +135,7 @@ void draw() {
       }
     }
   }
-
+  // hints
   for (int i = 0; i < secretCode.length; i++) {
     for (int f = 0; f < helper.length; f++) {
       if (helper[f][i] != 0) {
@@ -147,7 +147,7 @@ void draw() {
 
   //---------------------------------------------------------------------------------------
 
-  // Initializing the Win Or Lose Algorthim
+  // setting win or lose
   if (!play & pegRow < 8) {
     fill(color(75, 0, 130));
     textSize(70);
@@ -166,6 +166,7 @@ void draw() {
 
 
 // Intialize the Next Row By Pressing the Enter Key
+
 void keyPressed() {
   if (play) {
     if (key == ENTER) {
@@ -212,9 +213,10 @@ boolean findDouble(int index) {
 }  
 
 //----------------------------------------------------------------------------------------------------------------------------------
+
 void nextPegRow() {
   nextRow = true;
-
+  // it wont go to next row unless all spots are filled
   for (int i = 0; i < secretCode.length; i++) {
     if (game[pegRow][i] == 0) {
       nextRow = false;
@@ -227,6 +229,7 @@ void nextPegRow() {
 
     if (play) {
       pegRow++;
+      //increases row makes it go down
       game[pegRow] = new int[4];
       helper[pegRow] = new int[4];
       //reset the finder
@@ -246,6 +249,7 @@ void setHelper() {
   int whiteHint = 0;
   int blackHint = 0;
 
+  //calculates hints
   for (int i = 0; i < secretCode.length; i++) {
     for (int f = 0; f < secretCode.length; f++) {
       if (game[pegRow][i] == secretCode[f])
