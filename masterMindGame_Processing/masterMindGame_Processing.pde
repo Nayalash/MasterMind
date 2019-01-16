@@ -8,6 +8,7 @@
  --------------------------------------------------------------------------------- 
  Program Description: This program is a remake of the Mastermind/ Code Breaker Game.
  -----------------------------------------------------------------------------------
+ BUGS: SOMETIMES HINTS DO NOT SHOW, MIGHT HAVE TO RESTART PROGRAM
  
  DISCLAIMER***
  
@@ -44,33 +45,31 @@
 //Load Images
 PImage keyPic;
 PImage arrow;
-//-----------------------------------------------------------------------------------
 
+
+//----------------------------------------------------------------------------------
 
 // Define an array that will hold colors
 int[] colors = new int[] {color(255), color(0), color(255, 0, 0), color(0, 255, 0), color(0, 0, 255), color(255, 255, 0), color(255, 140, 0), color(139, 69, 19)};
 //                          WHITE         BLACK           RED                GREEN            BLUE              YELLOW              ORANGE              BROWN
 
-//------------------------------------------------------------------------------------
+int[][] game = new int[1000][1000]; // set array to large amount 
+int[][] helper = new int[1000][1000]; // set array to large amount 
+
 
 //define an array that will store the a secret color combination.
 int[] secretCode = new int[4];
+//--------------------------------------------------------------------------------------------
+
 
 // define the number of rows for the pegs to be placed
 int pegRow;
 //set the peg reset to 0 so it can increase the pegs each time
 int finder = 0;
+
+
 //boolean that check for the hints being applied
 boolean guessing = true;
-
-//--------------------------------------------------------------------------------------------
-//Arrays
-
-int[][] game = new int[1000][1000]; // set array to large amount 
-int[][] helper = new int[1000][1000]; // set array to large amount 
-
-//--------------------------------------------------------------------------------------------
-
 //checks when the game reaches to the next row
 boolean nextRow;
 //checks if the game is in play. [Running]
@@ -135,6 +134,7 @@ void draw() {
   // shows the answer at the end
   for (int i = 0; i < secretCode.length; i++) {
     if (play) {
+     //running 
     } else {
       fill(secretCode[i]);
       ellipse(50 / 2 + 50 * i, 50 / 2, 50, 50);
@@ -162,7 +162,7 @@ void draw() {
 
   //---------------------------------------------------------------------------------------
 
-  // setting the game to win or lose
+  // Setting the game to Win or Lose
   if (!play & pegRow < 8) {
     fill(color(75, 0, 130));
     textSize(50);
@@ -228,7 +228,36 @@ boolean findDouble(int index) {
 }  
 
 //----------------------------------------------------------------------------------------------------------------------------------
+//Hints or Helper Structure
+void setHelper() {
+  int whiteHint = 0;
+  int blackHint = 0;
 
+  //calculates hints
+  for (int i = 0; i < secretCode.length; i++) {
+    for (int f = 0; f < secretCode.length; f++) {
+      if (game[pegRow][i] == secretCode[f])
+        if (i == f) blackHint++;
+        else whiteHint++;
+    }
+  }
+
+  //if the row is correct. The game stops its running action.
+  if (blackHint == secretCode.length) {
+    play = false;
+  }
+
+  //initiates the white hint pegs
+  for (int i = 0; i < whiteHint; i++) {
+    helper[pegRow][i] = color(255);
+  }
+  //initiates the black hint pegs
+  for (int i = 0; i < blackHint; i++) {
+    helper[pegRow][i + whiteHint] = color(0);
+  }
+}
+
+//-------------------------------------------------------------------------------------------------
 void nextPegRow() {
   nextRow = true;
   // it wont go to next row unless all spots are filled
@@ -260,35 +289,7 @@ void nextPegRow() {
 
 //---------------------------------------------------------------------------------------------------------------------------
 
-//Hints or Helper Structure
-void setHelper() {
-  int whiteHint = 0;
-  int blackHint = 0;
-
-  //calculates hints
-  for (int i = 0; i < secretCode.length; i++) {
-    for (int f = 0; f < secretCode.length; f++) {
-      if (game[pegRow][i] == secretCode[f])
-        if (i == f) blackHint++;
-        else whiteHint++;
-    }
-  }
-
-  //if the row is correct. The game stops its running action.
-  if (blackHint == secretCode.length) {
-    play = false;
-  }
-
-  //initiates the white hint pegs
-  for (int i = 0; i < whiteHint; i++) {
-    helper[pegRow][i] = color(255);
-  }
-  //initiates the black hint pegs
-  for (int i = 0; i < blackHint; i++) {
-    helper[pegRow][i + whiteHint] = color(0);
-  }
-}
-
+//make board
 void fetchBoard() {
   fill(75, 0, 130);
   rect(0, 0, 300, 500);
