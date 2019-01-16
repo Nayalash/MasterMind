@@ -116,7 +116,7 @@ void draw() {
 
   // load image onto the screen  
   image(keyPic, 450, 20); 
-  image(arrow, 200,10);
+
 
   //---------------------------------------------------------------------------------------
   for (int i = 0; i < secretCode.length; i++) {
@@ -156,6 +156,7 @@ void draw() {
     fill(color(75, 0, 130));
     textSize(70);
     text("Oops", 270, 180);
+    image(arrow, 200, 10); // load arrow
   }
 }
 
