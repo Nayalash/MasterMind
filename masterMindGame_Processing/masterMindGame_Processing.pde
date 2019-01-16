@@ -65,8 +65,9 @@ boolean guessing = true;
 
 //--------------------------------------------------------------------------------------------
 //Arrays
-int[][] game = new int[1000][1000]; // set array to random amount 
-int[][] helper = new int[1000][1000]; // set array to random amount 
+
+int[][] game = new int[1000][1000]; // set array to large amount 
+int[][] helper = new int[1000][1000]; // set array to large amount 
 
 //--------------------------------------------------------------------------------------------
 
@@ -88,17 +89,17 @@ void setup() {
   keyPic = loadImage("key.png"); 
   arrow = loadImage("arrow.png");
 
-  size(800, 500); //size of the output screen
+  size(800, 450); //size of the output screen
   noStroke(); // so that the images are clear 
 
-  game[0] = (new int[4]); // set 4 pegs at the time of action
-  helper[0] = (new int[4]); // set 4 hint blocks to check if your guess is correct 
+  game[0] = new int[4]; // set 4 pegs at the time of action
+  helper[0] = new int[4]; // set 4 hint blocks to check if your guess is correct 
 
   // randomize the 4 circle combination
   for (int i = 0; i < secretCode.length; i++) {
     int randomizer = int(random(colors.length));
     secretCode[i] = colors[randomizer];
-
+    //make it so that there are no doubles
     for (int f = 0; f < i; f++) {
       if (secretCode[i] == secretCode[f])
         i--;
@@ -118,6 +119,7 @@ void draw() {
 
 
   //---------------------------------------------------------------------------------------
+
   // shows the answer at the end
   for (int i = 0; i < secretCode.length; i++) {
     if (play) {
@@ -126,7 +128,7 @@ void draw() {
       ellipse(50 / 2 + 50 * i, 50 / 2, 50, 50);
     }
   }
-  // displays peg
+  // displays the pegs
   for (int i = 0; i < secretCode.length; i++) {
     for (int f = 0; f < game.length; f++) {
       if (game[f][i] != 0) {
@@ -135,7 +137,7 @@ void draw() {
       }
     }
   }
-  // hints
+  // displays the hints
   for (int i = 0; i < secretCode.length; i++) {
     for (int f = 0; f < helper.length; f++) {
       if (helper[f][i] != 0) {
@@ -147,7 +149,7 @@ void draw() {
 
   //---------------------------------------------------------------------------------------
 
-  // setting win or lose
+  // setting the game to win or lose
   if (!play & pegRow < 8) {
     fill(color(75, 0, 130));
     textSize(70);
@@ -165,16 +167,16 @@ void draw() {
 ///////////////////////////////////////////////////////////////////////////////////////
 
 
-// Intialize the Next Row By Pressing the Enter Key
+// Make it go to the Next Row By Pressing the Enter Key
 
 void keyPressed() {
   if (play) {
     if (key == ENTER) {
-      nextPegRow();
+      nextPegRow(); //go to next row (calling the function)
       guessing = true;
     }
     if (guessing) {
-      addPeg();
+      addPeg(); //adds the pegs to the row
     }
   }
 }
@@ -230,7 +232,9 @@ void nextPegRow() {
     if (play) {
       pegRow++;
       //increases row makes it go down
-      game[pegRow] = new int[4];
+      
+      //changes the pegs and the hints to reset for the next row.
+      game[pegRow] = new int[4]; 
       helper[pegRow] = new int[4];
       //reset the finder
       finder = 0;
@@ -258,6 +262,7 @@ void setHelper() {
     }
   }
 
+//if the row is correct. The game stops its running action.
   if (blackHint == secretCode.length) {
     play = false;
   }
