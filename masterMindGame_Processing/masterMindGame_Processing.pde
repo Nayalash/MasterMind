@@ -35,6 +35,7 @@
  -------------------------------------------------------------------------------------
  */
 
+  
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////Define Global Variables/////////////////////////////////
@@ -45,6 +46,7 @@
 //Load Images
 PImage keyPic;
 PImage arrow;
+PImage board1;
 
 
 //----------------------------------------------------------------------------------
@@ -87,6 +89,7 @@ void setup() {
   //load images from directory
   keyPic = loadImage("key.png"); 
   arrow = loadImage("arrow.png");
+  board1 = loadImage("board1.png");
   //---------------------------------------------------------
   size(800, 450); //size of the output screen
   noStroke(); // so that the images are clear 
@@ -102,7 +105,7 @@ void setup() {
     //make it so that there are no doubles
     for (int f = 0; f < i; f++) {
       if (secretCode[i] == secretCode[f])
-        i--;
+        i--; // goes back to last iteration
     }
   }
 }
@@ -293,6 +296,7 @@ void nextPegRow() {
 void fetchBoard() {
   fill(75, 0, 130);
   rect(0, 0, 300, 500);
+  image(board1,0,45);
 }
 
 //--------------------------------END---------------------------------------------------------------
