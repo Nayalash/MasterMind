@@ -1,3 +1,3 @@
-# masterMindGame-Processing
+# MasterMind Game
 
-MasterMind Game Coded with Processing.
+MasterMind Game 
